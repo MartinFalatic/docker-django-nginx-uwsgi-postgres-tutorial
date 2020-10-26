@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',  # django-cors-headers
     'rest_framework',
+    'drf_spectacular',
     'musics',
 ]
 
@@ -104,6 +105,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_rest_framework_tutorial.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

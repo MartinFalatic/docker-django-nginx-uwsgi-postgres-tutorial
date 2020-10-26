@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.contrib import admin
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
 from musics import views
 
@@ -27,4 +28,8 @@ urlpatterns = [
     path(r'api/', include(router.urls)),
     path(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path(r'admin/', admin.site.urls),
+    # OpenAPI doc views
+    path(r'schema/', SpectacularAPIView.as_view(), name='schema'),
+    path(r'schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path(r'schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

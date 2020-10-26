@@ -21,3 +21,4 @@ RUN usermod -d /docker_api www-data \
 USER www-data
 
 RUN python3 manage.py collectstatic --clear --noinput  # Clear before copy
+RUN python3 manage.py spectacular --file schema.yml

@@ -4,8 +4,8 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: password123
-    # ports:
-    #   - "5432:5432"  # (HOST:CONTAINER)
+    ports:
+      - "15432:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data/
 
