@@ -1,60 +1,72 @@
-version: '3'
+version: '3.7'
 services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password123
+    # ports:
+    #   - "5432:5432"  # (HOST:CONTAINER)
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/
 
-    db:
-      container_name: postgres
-      image: postgres
-      environment:
-        POSTGRES_PASSWORD: password123
-      # ports:
-      #   - "5432:5432"
-      #   (HOST:CONTAINER)
-      volumes:
-        - pgdata:/var/lib/postgresql/data/
+  nginx:
+    image: nginx-container
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+      # - "8080:80"
+    volumes:
+      - ./api:/docker_api
+      - staticfiles:/var/www/static
+      # - ./log:/var/log/nginx  # Uncomment if you prefer nginx logs to disk instead
+    depends_on:
+      - api
 
-    nginx:
-        container_name: nginx-container
-        build: ./nginx
-        restart: always
-        ports:
-        # - "8080:80"
-        - "80:80"
-        volumes:
-        - api_data:/docker_api
-        - ./log:/var/log/nginx
-        depends_on:
-        - api
+  api:
+    image: api-container
+    build:
+      dockerfile: Dockerfile
+      context: ./api
+    restart: always
+    # command: uwsgi --emperor uwsgi.ini
+    command: uwsgi --ini uwsgi.ini
+    # ports:
+    #   - "8002:8000"
+    volumes:
+      - ./api:/docker_api
+      - staticfiles:/var/www/static
+    depends_on:
+      - db
+      - util
 
-    api:
-        container_name: api-container
-        build: ./api
-        restart: always
-        # command: uwsgi  --emperor uwsgi.ini
-        command: uwsgi --ini uwsgi.ini
-        # ports:
-        # - "8002:8000"
-        volumes:
-        - api_data:/docker_api
-        depends_on:
-        - db
+  util:
+    image: api-container
+    command:
+      - /bin/sh
+      - -c
+      - "python3 manage.py migrate --noinput"
+    # ports:
+    #   - "8002:8000"
+    volumes:
+      - ./api:/docker_api
+    depends_on:
+      - db
 
-    # auto migrate django
-    # migration:
-    #     build: ./api
-    #     command:
-    #         - /bin/sh
-    #         - -c
-    #         - |
-    #           python manage.py collectstatic --noinput
-    #           python manage.py migrate
-    #           python manage.py makemigrations musics
-    #           python manage.py migrate
-    #     volumes:
-    #     - api_data:/docker_api
-    #     depends_on:
-    #     - db
+  tests:
+    image: api-container
+    command:
+      - /bin/sh
+      - -c
+      - "python3 manage.py test --keepdb --noinput"
+    # ports:
+    #   - "8002:8000"
+    volumes:
+      - ./api:/docker_api
+    depends_on:
+      - db
 
 volumes:
-    api_data:
-    pgdata:
-
+  staticfiles:

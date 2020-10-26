@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ORIGIN_ALLOW_ALL = True # corsheaders
+CORS_ORIGIN_ALLOW_ALL = True  # corsheaders
 
 # CORS_ORIGIN_WHITELIST = (
 #     # 'google.com',
@@ -36,7 +36,7 @@ CORS_ORIGIN_ALLOW_ALL = True # corsheaders
 # )
 
 CORS_ALLOW_METHODS = [
- #   'DELETE',
+    # 'DELETE',
     'GET',
     'OPTIONS',
     'PATCH',
@@ -55,7 +55,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-    'Cache-Control'
+    'Cache-Control',
 ]
 
 
@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders', # django-cors-headers
+    'corsheaders',  # django-cors-headers
     'rest_framework',
     'musics',
 ]
@@ -76,7 +76,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # CORS
+    'corsheaders.middleware.CorsMiddleware',  # CORS
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -89,8 +89,7 @@ ROOT_URLCONF = 'django_rest_framework_tutorial.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,7 +123,7 @@ DATABASES = {
         'PASSWORD': 'password123',
         'HOST': 'db',
         'PORT': 5432,
-    }
+    },
 }
 
 

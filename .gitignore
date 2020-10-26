@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Local files
+/pgdata
+.bash_history
+/.vscode
+

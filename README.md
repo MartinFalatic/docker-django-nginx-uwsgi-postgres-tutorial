@@ -675,3 +675,26 @@ django 上可以設定 CORS，透過 django-cors-headers 方法可參考 [文章
 ## License
 
 MIT license
+
+<hr>
+
+## MFF Runtime notes (WIP)
+
+### Stop, build, test, run
+
+`docker-compose down -v && docker-compose build && docker-compose run tests && docker-compose up`
+or
+`docker-compose down -v && docker-compose build --no-cache && docker-compose up`
+
+### Running something in a fresh, temporary container
+
+`docker run -it --rm api-container bash`
+
+### Running something in a runnng container
+
+`docker exec -it docker-django-nginx-uwsgi-postgres-tutorial_api_1 bash`
+
+### Pages when running
+
+* [Admin](http://localhost/admin/)
+* [API](http://localhost/api/)
